@@ -5,32 +5,35 @@ fun main() {
     println(calculaFrete(0.0, "SUL"))
     println(calculaFrete(2.5, "NORTE"))
     println(calculaFrete(4.0, "sul"))
+    println(calculaFrete(2.0, "Sul"))
+    println(calculaFrete(2.0, "sUl"))
 
 }
 
 fun calculaFrete(pesoKg: Double, regiao: String, urgente: Boolean = false): Double? {
-    var fretePeso = 0.0
-    var freteUrgente = 0.0
 
     if (pesoKg <= 0.0) {
         return null
     }
 
-    val freteBase: Double = when (regiao) {
-        "sul", "SUL" -> 12.0
-        "sudeste", "SUDESTE" -> 15.0
-        "norte", "NORTE" -> 30.0
+    val freteBase: Double = when (regiao.uppercase()) {
+        "SUL" -> 12.0
+        "SUDESTE" -> 15.0
+        "NORTE" -> 30.0
         else -> return null
     }
 
-    if (pesoKg > 1.0) {
-        fretePeso = (pesoKg - 1.0) * 2.5
+    val fretePeso = if (pesoKg > 1.0) {
+        (pesoKg - 1.0) * 2.5
+    } else {
+        0.0
     }
 
-    if (urgente) {
-        freteUrgente = 10.0
+    val freteUrgente = if (urgente) {
+        10.0
+    } else {
+        0.0
     }
 
-    val freteTotal = +fretePeso + freteBase + freteUrgente
-    return freteTotal
+    return fretePeso + freteBase + freteUrgente
 }
